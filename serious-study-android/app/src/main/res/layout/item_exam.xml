@@ -68,6 +68,6 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Delete"
             android:src="@android:drawable/ic_menu_delete"
-            android:tint="@color/danger" />
+            app:tint="@color/danger" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
