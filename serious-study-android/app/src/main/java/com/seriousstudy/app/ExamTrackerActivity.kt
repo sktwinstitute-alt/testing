@@ -68,7 +68,7 @@ class ExamTrackerActivity : AppCompatActivity() {
         val etSubject = EditText(context).apply { hint = "Subject (e.g. Mathematics)" }
         val tvDate = TextView(context).apply {
             text = "Date: ${selectedDate.format(DateTimeFormatter.ofPattern("dd MMM yyyy"))}"
-            setTextColor(resources.getColor(R.color.accent, theme))
+            setTextColor(androidx.core.content.ContextCompat.getColor(context, R.color.accent))
             val v = (8 * resources.displayMetrics.density).toInt()
             setPadding(0, v, 0, v)
         }
