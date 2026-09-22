@@ -1,4 +1,4 @@
-﻿package com.seriousstudy.app
+package com.seriousstudy.app
 
 import android.content.Context
 import org.json.JSONArray
