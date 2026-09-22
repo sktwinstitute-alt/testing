@@ -69,11 +69,18 @@ class QrScannerActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         scanning = true
-        binding.barcodeScannerView.resume()
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+            binding.barcodeScannerView.resume()
+        }
     }
 
     override fun onPause() {
         super.onPause()
-        binding.barcodeScannerView.pause()
+        try {
+            binding.barcodeScannerView.pause()
+        } catch (_: Exception) {
+        }
     }
 }
