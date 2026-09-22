@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Serious Study</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-layout">
+    <!-- ── Sidebar ── -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <span class="logo-icon">📚</span>
+        <span class="logo-text">Serious Study</span>
+      </div>
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-view="dashboard">
+          <span class="nav-icon">🏠</span><span class="nav-label">Dashboard</span>
+        </button>
+        <button class="nav-item" data-view="analytics">
+          <span class="nav-icon">📊</span><span class="nav-label">Analytics</span>
+        </button>
+        <button class="nav-item" data-view="exams">
+          <span class="nav-icon">📅</span><span class="nav-label">Exams</span>
+        </button>
+        <button class="nav-item" data-view="connect">
+          <span class="nav-icon">📱</span><span class="nav-label">Connect Phone</span>
+        </button>
+        <button class="nav-item" data-view="settings">
+          <span class="nav-icon">⚙️</span><span class="nav-label">Settings</span>
+        </button>
+      </nav>
+      <div class="sidebar-footer">
+        <div id="phone-status-sidebar" class="badge badge-disconnected">● Phone Disconnected</div>
+      </div>
+    </aside>
+
+    <!-- ── Main ── -->
+    <main class="main-content">
+      <div id="view">
+
+        <!-- ════════════════════ DASHBOARD IDLE ════════════════════ -->
+        <section id="view-dashboard" class="view-section active">
+          <div class="view-header">
+            <div>
+              <h1 id="greeting">Good morning!</h1>
+              <p class="view-subtitle" id="today-date"></p>
+            </div>
+            <div id="streak-badge" class="streak-badge">🔥 0 Day Streak</div>
+          </div>
+
+          <!-- Progress -->
+          <div class="card mb-16">
+            <div class="card-row-space">
+              <span class="card-label">Daily Goal Progress</span>
+              <span id="progress-text" class="card-label">0 / 120 min</span>
+            </div>
+            <div class="progress-bar-outer mt-8">
+              <div id="progress-bar-inner" class="progress-bar-inner" style="width:0%"></div>
+            </div>
+            <div id="today-subjects" class="subject-pills mt-12"></div>
+          </div>
+
+          <!-- Subject selector -->
+          <div class="card mb-16">
+            <label class="field-label" for="subject-select">Choose Subject</label>
+            <select id="subject-select" class="field-input">
+              <option value="" disabled selected>Select a subject…</option>
+            </select>
+            <div id="add-subject-inline" class="add-subject-inline" style="display:none">
+              <input id="new-subject-input" class="field-input mt-8" type="text" placeholder="New subject name…" />
+              <div class="btn-row mt-8">
+                <button id="add-subject-confirm" class="btn btn-sm btn-accent">Add</button>
+                <button id="add-subject-cancel" class="btn btn-sm btn-ghost">Cancel</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Upcoming Exams -->
+          <div class="card mb-16">
+            <h2 class="card-title">📅 Upcoming Exams</h2>
+            <div id="upcoming-exams-list" class="exam-compact-list"></div>
+          </div>
+
+          <!-- START button -->
+          <button id="btn-start" class="btn-start">▶ START SERIOUS STUDY</button>
+        </section>
+
+        <!-- ════════════════════ DASHBOARD ACTIVE ════════════════════ -->
+        <section id="view-active" class="view-section">
+          <div class="active-banner">
+            🔒 SERIOUS STUDY ACTIVE
+          </div>
+
+          <div class="active-center">
+            <div class="active-subject-name" id="active-subject-name">—</div>
+
+            <div class="timer-row">
+              <span class="recording-dot"></span>
+              <span id="timer-display" class="timer-display">00:00:00</span>
+            </div>
+
+            <div id="phone-focus-status" class="badge badge-disconnected mt-12">⚠️ Phone not connected</div>
+
+            <div class="card mt-24" style="width:100%;max-width:560px">
+              <label class="field-label" for="session-notes">Session Notes</label>
+              <textarea id="session-notes" class="field-input" rows="4" placeholder="What did you study? Any blockers?"></textarea>
+            </div>
+
+            <button id="btn-end" class="btn-end mt-24">■ END SESSION</button>
+          </div>
+        </section>
+
+        <!-- ════════════════════ ANALYTICS ════════════════════ -->
+        <section id="view-analytics" class="view-section">
+          <div class="view-header">
+            <h1>Analytics</h1>
+          </div>
+
+          <div class="stats-grid mb-24">
+            <div class="card stat-card">
+              <div class="stat-label">Current Streak</div>
+              <div class="stat-value" id="analytics-streak">0</div>
+              <div class="stat-unit">days</div>
+            </div>
+            <div class="card stat-card">
+              <div class="stat-label">Longest Streak</div>
+              <div class="stat-value" id="analytics-longest">0</div>
+              <div class="stat-unit">days</div>
+            </div>
+            <div class="card stat-card">
+              <div class="stat-label">All Time</div>
+              <div class="stat-value" id="analytics-total">0</div>
+              <div class="stat-unit">minutes</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2 class="card-title mb-16">Per-Subject Breakdown</h2>
+            <table class="data-table" id="analytics-table">
+              <thead>
+                <tr><th>Subject</th><th>Total Minutes</th><th>Total Hours</th></tr>
+              </thead>
+              <tbody id="analytics-tbody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ════════════════════ EXAMS ════════════════════ -->
+        <section id="view-exams" class="view-section">
+          <div class="view-header">
+            <h1>Exams</h1>
+          </div>
+
+          <!-- Add Exam Form -->
+          <div class="card mb-24">
+            <h2 class="card-title mb-16">Add Exam</h2>
+            <div class="form-grid">
+              <div class="form-field">
+                <label class="field-label">Exam Name *</label>
+                <input id="exam-name" class="field-input" type="text" placeholder="e.g. Data Structures Final" />
+              </div>
+              <div class="form-field">
+                <label class="field-label">Subject *</label>
+                <input id="exam-subject" class="field-input" type="text" placeholder="e.g. DSA" />
+              </div>
+              <div class="form-field">
+                <label class="field-label">Date *</label>
+                <input id="exam-date" class="field-input" type="date" />
+              </div>
+              <div class="form-field">
+                <label class="field-label">Time</label>
+                <input id="exam-time" class="field-input" type="time" />
+              </div>
+              <div class="form-field">
+                <label class="field-label">Location</label>
+                <input id="exam-location" class="field-input" type="text" placeholder="e.g. Hall A" />
+              </div>
+              <div class="form-field form-field-full">
+                <label class="field-label">Notes</label>
+                <textarea id="exam-notes" class="field-input" rows="2" placeholder="Any notes…"></textarea>
+              </div>
+            </div>
+            <button id="btn-add-exam" class="btn btn-accent mt-16">+ Add Exam</button>
+          </div>
+
+          <!-- Exam list -->
+          <div class="card">
+            <h2 class="card-title mb-16">All Exams</h2>
+            <div id="exams-list"></div>
+          </div>
+        </section>
+
+        <!-- ════════════════════ CONNECT PHONE ════════════════════ -->
+        <section id="view-connect" class="view-section">
+          <div class="view-header">
+            <h1>Connect Phone</h1>
+          </div>
+
+          <div class="connect-layout">
+            <div class="card connect-card">
+              <div class="qr-wrapper">
+                <img id="qr-img" src="" alt="QR Code" class="qr-img" />
+              </div>
+              <p class="connect-ip" id="connect-ip">ws://—:5417</p>
+              <p class="connect-hint">Scan this QR code with the Serious Study Android app</p>
+              <button id="btn-regen" class="btn btn-ghost mt-16">🔄 Regenerate Token</button>
+            </div>
+
+            <div class="card connect-info-card">
+              <h2 class="card-title mb-12">Connection Status</h2>
+              <div id="connect-status-badge" class="badge badge-disconnected mb-16">● Not Connected</div>
+              <p class="muted-text">Once paired, your phone will:</p>
+              <ul class="info-list">
+                <li>Block distracting apps during study sessions</li>
+                <li>Send interruption alerts here</li>
+                <li>Show focus mode lock screen</li>
+              </ul>
+              <h3 class="card-label mt-24 mb-8">Token</h3>
+              <code id="connect-token" class="token-code"></code>
+              <h3 class="card-label mt-16 mb-8">Laptop</h3>
+              <code id="connect-hostname" class="token-code"></code>
+            </div>
+          </div>
+        </section>
+
+        <!-- ════════════════════ SETTINGS ════════════════════ -->
+        <section id="view-settings" class="view-section">
+          <div class="view-header">
+            <h1>Settings</h1>
+          </div>
+
+          <div class="card mb-24">
+            <h2 class="card-title mb-16">Study Goals</h2>
+            <div class="form-grid">
+              <div class="form-field">
+                <label class="field-label">Daily Goal (minutes)</label>
+                <input id="setting-goal" class="field-input" type="number" min="1" max="1440" />
+              </div>
+              <div class="form-field">
+                <label class="field-label">Streak Threshold (min/day)</label>
+                <input id="setting-streak" class="field-input" type="number" min="1" max="1440" />
+              </div>
+            </div>
+          </div>
+
+          <div class="card mb-24">
+            <h2 class="card-title mb-8">Blocked Apps</h2>
+            <p class="muted-text mb-8">One package name per line (sent to phone during focus sessions)</p>
+            <textarea id="setting-blocked" class="field-input" rows="8"></textarea>
+          </div>
+
+          <button id="btn-save-settings" class="btn btn-accent mb-32">💾 Save Settings</button>
+
+          <div class="card">
+            <h2 class="card-title mb-16">Manage Subjects</h2>
+            <div id="subjects-list" class="subjects-list mb-16"></div>
+            <div class="btn-row">
+              <input id="new-subject-settings" class="field-input" type="text" placeholder="New subject name…" style="max-width:280px" />
+              <button id="btn-add-subject-settings" class="btn btn-accent">+ Add Subject</button>
+            </div>
+          </div>
+        </section>
+
+      </div><!-- /#view -->
+    </main>
+  </div>
+
+  <!-- Toast container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

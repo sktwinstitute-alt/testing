@@ -1,0 +1,69 @@
+name: Build Android APK
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build & Release APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Make Gradle Wrapper Executable
+        run: |
+          if [ -f "gradlew" ]; then
+            chmod +x gradlew
+          elif [ -f "serious-study-android/gradlew" ]; then
+            chmod +x serious-study-android/gradlew
+          fi
+
+      - name: Build Debug APK
+        run: |
+          if [ -f "gradlew" ]; then
+            ./gradlew assembleDebug --stacktrace
+          elif [ -f "serious-study-android/gradlew" ]; then
+            cd serious-study-android && ./gradlew assembleDebug --stacktrace
+          else
+            echo "Gradle wrapper not found"
+            exit 1
+          fi
+
+      - name: Upload Debug APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: serious-study-debug-apk
+          path: |
+            **/build/outputs/apk/debug/*.apk
+          retention-days: 14
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            **/build/outputs/apk/debug/*.apk
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

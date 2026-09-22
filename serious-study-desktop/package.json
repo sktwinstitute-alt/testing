@@ -1,0 +1,24 @@
+{
+  "name": "serious-study",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "electron": "^29.0.0",
+    "ws": "^8.18.0",
+    "qrcode": "^1.5.3",
+    "lowdb": "^1.0.0"
+  },
+  "devDependencies": {
+    "electron-builder": "^24.0.0"
+  },
+  "build": {
+    "appId": "com.seriousstudy.app",
+    "productName": "Serious Study",
+    "win": {
+      "target": "nsis"
+    }
+  }
+}

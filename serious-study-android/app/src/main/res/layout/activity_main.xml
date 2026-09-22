@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Connection Status Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardConnection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="@color/card"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:id="@+id/viewStatusDot"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/shape_status_dot" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvConnectionStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Not Connected"
+                            android:textColor="@color/text"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvFocusState"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="No active focus session"
+                            android:textColor="@color/muted"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Scan QR Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnScanQr"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="12dp"
+            android:text="📷  Scan QR to Connect Laptop"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:backgroundTint="@color/accent"
+            app:cornerRadius="14dp" />
+
+        <!-- Manage Selective Blocked Apps Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnManageBlocklist"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="12dp"
+            android:text="🚫  Selective App Blocking"
+            android:textColor="@color/text"
+            android:textSize="15sp"
+            app:backgroundTint="@color/card"
+            app:cornerRadius="14dp"
+            app:strokeColor="@color/accent"
+            app:strokeWidth="1dp" />
+
+        <!-- Accessibility Permission Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAccessibility"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="16dp"
+            android:text="Enable App Blocking Permission"
+            android:textColor="@color/text"
+            android:textSize="15sp"
+            app:backgroundTint="@color/card"
+            app:cornerRadius="14dp"
+            app:strokeColor="@color/muted"
+            app:strokeWidth="1dp" />
+
+        <!-- Focus Active Card (hidden when not focused) -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardFocusActive"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:visibility="gone"
+            app:cardBackgroundColor="@color/card"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvFocusSubject"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🔒  Focus: Subject"
+                    android:textColor="@color/text"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="☎  Phone Calls ALLOWED"
+                    android:textColor="@color/success"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="🚨  Emergency ALLOWED"
+                    android:textColor="@color/success"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Emergency Unlock Button (hidden when not focused) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEmergencyUnlock"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="16dp"
+            android:text="⚠️  Emergency Unlock"
+            android:textColor="@color/danger"
+            android:textSize="15sp"
+            android:visibility="gone"
+            app:cornerRadius="14dp"
+            app:strokeColor="@color/danger"
+            app:strokeWidth="1dp" />
+
+        <!-- Exam Tracker Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnExamTracker"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="📅  View Exam Tracker"
+            android:textColor="@color/accent"
+            android:textSize="15sp"
+            app:cornerRadius="14dp"
+            app:strokeColor="@color/accent"
+            app:strokeWidth="1dp" />
+
+    </LinearLayout>
+</ScrollView>

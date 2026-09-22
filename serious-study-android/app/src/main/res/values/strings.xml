@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Serious Study</string>
+    <string name="accessibility_service_description">Serious Study uses accessibility to detect and block distracting apps during focus sessions.</string>
+    <string name="channel_name">Serious Study Focus</string>
+    <string name="channel_description">Shows your current focus session status</string>
+</resources>

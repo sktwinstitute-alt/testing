@@ -1,0 +1,18 @@
+# Node / Electron
+node_modules/
+dist/
+build/
+*.log
+.env
+.DS_Store
+
+# Android / Gradle
+.gradle/
+**/build/
+captures/
+*.apk
+*.aab
+.idea/
+*.iml
+local.properties
+.cxx/
