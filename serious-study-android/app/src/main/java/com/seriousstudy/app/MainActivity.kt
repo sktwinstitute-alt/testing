@@ -32,12 +32,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val qrLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
+        com.journeyapps.barcodescanner.ScanContract()
     ) { result ->
-        if (result.resultCode == RESULT_OK) {
-            val raw = result.data?.getStringExtra(QrScannerActivity.EXTRA_RESULT)
-                ?: return@registerForActivityResult
-            handleQrResult(raw)
+        val contents = result?.contents
+        if (!contents.isNullOrBlank()) {
+            handleQrResult(contents)
         }
     }
 
@@ -101,7 +100,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun scanQr() {
-        qrLauncher.launch(Intent(this, QrScannerActivity::class.java))
+        val options = com.journeyapps.barcodescanner.ScanOptions().apply {
+            setDesiredBarcodeFormats(com.journeyapps.barcodescanner.ScanOptions.QR_CODE)
+            setPrompt("Align QR code on laptop screen within the frame")
+            setCameraId(0) // Back camera
+            setBeepEnabled(true)
+            setBarcodeImageEnabled(false)
+            setOrientationLocked(false)
+        }
+        qrLauncher.launch(options)
     }
 
     private fun handleQrResult(raw: String) {
