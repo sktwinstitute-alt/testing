@@ -5,12 +5,14 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
+import android.view.KeyEvent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeCallback
 import com.journeyapps.barcodescanner.BarcodeResult
-import com.journeyapps.barcodescanner.DecoratedBarcodeView
+import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import com.seriousstudy.app.databinding.ActivityQrScannerBinding
 
 class QrScannerActivity : AppCompatActivity() {
@@ -53,6 +55,11 @@ class QrScannerActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.toolbar.setNavigationOnClickListener { finish() }
 
+        // Configure barcode scanner
+        binding.barcodeScannerView.initializeFromIntent(intent)
+        binding.barcodeScannerView.setStatusText("Align QR code within the frame")
+        binding.barcodeScannerView.barcodeView.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
             == PackageManager.PERMISSION_GRANTED
         ) {
@@ -64,6 +71,7 @@ class QrScannerActivity : AppCompatActivity() {
 
     private fun startScanning() {
         binding.barcodeScannerView.decodeContinuous(barcodeCallback)
+        binding.barcodeScannerView.resume()
     }
 
     override fun onResume() {
@@ -82,5 +90,9 @@ class QrScannerActivity : AppCompatActivity() {
             binding.barcodeScannerView.pause()
         } catch (_: Exception) {
         }
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        return binding.barcodeScannerView.onKeyDown(keyCode, event) || super.onKeyDown(keyCode, event)
     }
 }
